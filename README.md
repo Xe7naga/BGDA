@@ -149,61 +149,61 @@ python inference.py --checkpoint path/to/checkpoint.pth \
                     --threshold 0.5
 ```
 
-## ⚙️ 配置说明
+## ⚙️ Configuration
 
-所有配置项在 `bnda/config/config.py` 中定义。
+All configuration options are defined in `bnda/config/config.py`.
 
-### 训练超参数 (与论文一致)
+### Training Hyperparameters
 
-CNN/ResNet-based methods采用以下配置：
+CNN/ResNet-based methods use the following defaults:
 
 ```python
 class Config:
-    # 优化器配置
-    self.lr = 1e-3              # 初始学习率 (1 × 10^-3)
-    self.momentum = 0.9         # SGD动量
-    self.wd = 1e-4              # 权重衰减 (1 × 10^-4)
-    
-    # 学习率调度
-    self.poly_power = 0.9       # poly调度幂次
-    
-    # 损失函数超参数
-    self.boundary_radius = 3    # r: 边界膨胀半径
-    self.boundary_alpha = 2.0   # α: 边界权重系数
-    self.fp_margin = 0.1        # τ: 假阳性抑制容差阈值
-    self.lambda_bw = 0.3        # λbw: 边界加权损失权重
-    self.lambda_fp = 1.0        # λfp: 假阳性抑制损失权重
-    
-    # 其他配置
+    # Optimizer configuration
+    self.lr = 1e-3              # Initial learning rate (1 × 10^-3)
+    self.momentum = 0.9         # SGD momentum
+    self.wd = 1e-4              # Weight decay (1 × 10^-4)
+
+    # Learning rate schedule
+    self.poly_power = 0.9       # poly schedule power
+
+    # Loss function hyperparameters
+    self.boundary_radius = 3    # r: boundary dilation radius
+    self.boundary_alpha = 2.0   # α: boundary weight coefficient
+    self.fp_margin = 0.1        # τ: false-positive suppression tolerance threshold
+    self.lambda_bw = 0.3        # λbw: boundary-weighted loss weight
+    self.lambda_fp = 1.0        # λfp: false-positive suppression loss weight
+
+    # Other settings
     self.train_batch = 16
     self.nepoch = 100
     self.num_classes = 2
     self.encoder = "resnet101"
 ```
 
-修改配置后重新运行训练即可。
+After updating the config, rerun training.
 
-## 🎯 损失函数
+## 🎯 Loss Function
 
-组合损失 = λbw × (Boundary-weighted BCE + Dice) + λfp × False-positive Suppression
+Combined loss = λbw × (Boundary-weighted BCE + Dice) + λfp × False-positive Suppression
 
-其中：
-- **Boundary-weighted BCE-Dice**: 边界区域赋予更高权重 (α=2.0, r=3)
-- **False-positive Suppression**: 惩罚非边界背景区域的前景误检 (τ=0.1)
+Where:
+- **Boundary-weighted BCE-Dice**: boundary regions receive higher weight (α=2.0, r=3)
+- **False-positive Suppression**: penalizes false positive predictions in non-boundary background regions (τ=0.1)
 - **λbw=0.3, λfp=1.0**
 
-## 📊 评估指标
+## 📊 Evaluation Metrics
 
 - **Dice Score**: `2 * |A ∩ B| / (|A| + |B|)`
 - **TPVF (Recall)**: `|A ∩ B| / |B|`
 - **PPV (Precision)**: `|A ∩ B| / |A|`
 
-其中A为预测结果，B为真实标签。
+Where A is the prediction and B is the ground truth.
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
 
-## 🤝 贡献
+## 🤝 Contribution
 
-欢迎提交Issue和Pull Request！
+Issues and Pull Requests are welcome!
