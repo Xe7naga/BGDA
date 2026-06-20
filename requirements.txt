@@ -1,0 +1,24 @@
+# Core dependencies
+torch>=1.9.0
+torchvision>=0.10.0
+numpy>=1.21.0
+opencv-python>=4.5.0
+
+# Image processing
+Pillow>=8.0.0
+
+# Progress bar and utilities
+tqdm>=4.62.0
+tensorboardX>=2.4.0
+
+# Machine learning utilities
+scikit-learn>=0.24.0
+
+# Segmentation models
+segmentation-models-pytorch>=0.3.0
+
+# Configuration and logging
+PyYAML>=6.0
+
+# Optional: for visualization
+matplotlib>=3.4.0
